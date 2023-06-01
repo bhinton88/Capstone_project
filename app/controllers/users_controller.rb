@@ -1,0 +1,42 @@
+class UsersController < ApplicationController
+  rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_data
+
+  before_action :find_user
+
+  #  do not need to find a user prior to CREATING one 
+
+  skip_before_action :find_user, only: [:create]
+
+  def create
+    user = User.create!(user_params)
+    # then we need to create a session for the new user
+    session[:user_id] = user.id
+    render json: user, status: :created
+  end
+
+  #  want functionality to be able to update information about our current user
+  def update
+    @user.update(user_params)
+    render json: @user, status: :created
+  end
+
+  #  want functionality to be able to delete our profile if we so choose
+  def destroy
+  end
+
+
+  private
+  
+  #  we want to make sure that we are only allowing the current signed in user to do certain things
+  def find_user
+    @user = User.find_by(id: session[:user_id])
+  end
+
+  def user_params
+    params.permit(:username, :password, :city, :state, :email)
+  end
+
+  def handle_invalid_data(invalid)
+    render json: {errors: invalid.record.errors.full_messages }, status: :unprocessable_tentity
+  end
+end
