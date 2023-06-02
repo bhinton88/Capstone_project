@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_data
+  rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
 
   before_action :find_user
 
@@ -22,6 +23,8 @@ class UsersController < ApplicationController
 
   #  want functionality to be able to delete our profile if we so choose
   def destroy
+    @user.destroy
+    head :no_content
   end
 
 
@@ -38,5 +41,9 @@ class UsersController < ApplicationController
 
   def handle_invalid_data(invalid)
     render json: {errors: invalid.record.errors.full_messages }, status: :unprocessable_tentity
+  end
+
+  def handle_record_not_found
+    render json: {errors: ["User not found"]}, status: :not_found
   end
 end

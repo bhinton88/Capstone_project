@@ -9,9 +9,12 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    if session[:user_id]
+      session.delete :user_id
+      render json {}
+    else 
+      render json: {errors: ["You must be logged in first"]}, status: :unauthorized
   end
 
-  private
-
-  def 
+   
 end

@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :orders
 
-  validates :username, :address, :city, :state, :email, :stripe_id, presence: true
+  validates :username, :address, :city, :state, :email, presence: true
 
   # we set a method to run before creation of a new user
 
