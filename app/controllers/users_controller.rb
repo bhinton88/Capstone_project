@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:username, :password, :password_confirmation, :city, :state, :email)
+    params.permit(:username, :password, :password_confirmation, :full_name, :address, :city, :state, :zip_code, :email)
   end
 
   def handle_invalid_data(invalid)

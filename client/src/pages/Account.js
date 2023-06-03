@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import CreateUserForm from "../components/CreateUserForm"
 
 function Account () {
 
@@ -8,19 +9,26 @@ function Account () {
   // upon either logging in or creating an account, then they can proceed to the account dashboard which will show 
   // a users current orders and their user profile. They will be allowed to update their user profile. 
 
-  useEffect(()=> {
-    fetch("/me")
-    .then((response) => {
-      if(response.ok)
-      {
-        response.json()
-        .then((user) => {
-          setUser(user)
-          setSignups(user.signups)
-        })
-      }
-    })
-  }, [])
+  // useEffect(()=> {
+  //   fetch("/me")
+  //   .then((response) => {
+  //     if(response.ok)
+  //     {
+  //       response.json()
+  //       .then((user) => {
+  //         setUser(user)
+  //         setSignups(user.signups)
+  //       })
+  //     }
+  //   })
+  // }, [])
+
+  return(
+    <>
+      <CreateUserForm />
+    </>
+
+  )
 
 }
 

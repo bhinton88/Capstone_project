@@ -1,5 +1,5 @@
 import { Container, Navbar, Nav, Button  } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCircleUser} from '@fortawesome/free-regular-svg-icons'
@@ -7,7 +7,13 @@ import {faCircleUser} from '@fortawesome/free-regular-svg-icons'
 
 export default function NavBarS() {
 
+  const navigate = useNavigate()
+
   const [ expanded, setExpanded] = useState(false)
+
+  function onClick() {
+    navigate("/account")
+  }
 
   return(
     <Navbar className='bg-white shadow-sm mb-3'>
@@ -19,7 +25,7 @@ export default function NavBarS() {
               <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/about">About Me</Nav.Link>
               <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/shop">Shop</Nav.Link>
             </Nav>
-            <Button variant='outline-primary'><FontAwesomeIcon icon={faCircleUser}/> Account </Button>
+            <Button variant='outline-primary' onClick={onClick}><FontAwesomeIcon icon={faCircleUser}/> Account </Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>
