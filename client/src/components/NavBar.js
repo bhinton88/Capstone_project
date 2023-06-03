@@ -1,8 +1,9 @@
 import { Container, Navbar, Nav, Button  } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faUserBountyHunter } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faCircleUser} from '@fortawesome/free-regular-svg-icons'
+
 
 export default function NavBarS() {
 
@@ -13,12 +14,12 @@ export default function NavBarS() {
       <Container>
         <Navbar.Toggle onClick={() => setExpanded(expanded ? false : "expanded")} aria-controls="responsive-navbar-nav"/>
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav className="me-auto">
               <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/">Home</Nav.Link>
               <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/about">About Me</Nav.Link>
               <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/shop">Shop</Nav.Link>
             </Nav>
-            <Button></Button>
+            <Button variant='outline-primary'><FontAwesomeIcon icon={faCircleUser}/> Account </Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>

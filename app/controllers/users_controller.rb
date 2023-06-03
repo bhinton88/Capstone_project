@@ -15,6 +15,13 @@ class UsersController < ApplicationController
     render json: user, status: :created
   end
 
+  def show
+    if @user
+      render json: @user, status: :created
+    else
+      render json: {errors: ["Please Login first"]}, status: :unauthorized
+  end
+
   #  want functionality to be able to update information about our current user
   def update
     @user.update(user_params)

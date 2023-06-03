@@ -10,24 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_02_023726) do
+ActiveRecord::Schema.define(version: 2023_06_03_021654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
     t.string "category_name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "customers", force: :cascade do |t|
-    t.string "username"
-    t.string "address"
-    t.string "city"
-    t.string "state"
-    t.string "email"
-    t.string "stripe_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -60,35 +49,17 @@ ActiveRecord::Schema.define(version: 2023_06_02_023726) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "signups", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "workshop_id"
-    t.string "referral_type"
-    t.text "additional_notes"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
-    t.string "name"
+    t.string "address"
+    t.string "city"
+    t.string "state"
     t.string "email"
-    t.string "preferred_craft"
-    t.string "level_of_skill"
+    t.string "stripe_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "workshops", force: :cascade do |t|
-    t.string "workshop_name"
-    t.string "instructor_name"
-    t.string "craft_type"
-    t.string "skill_level_required"
-    t.text "workshop_description"
-    t.text "yarn_and_tool_requirements"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.string "full_name"
   end
 
 end
