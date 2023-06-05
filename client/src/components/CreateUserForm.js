@@ -1,8 +1,14 @@
 import {Form, Button, Row, Col } from 'react-bootstrap'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { states } from '../data/States'
+import { UserContext } from '../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 function CreateUserForm () {
+
+  const navigate = useNavigate();
+
+  const {user, setUser} = useContext(UserContext)
 
   const [errors, setErrors] =  useState([])
   const [formData, setFormData] = useState({
@@ -13,7 +19,8 @@ function CreateUserForm () {
     address: "",
     city: "",
     state: "",
-    email: "",
+    zip_code: 0,
+    email: ""
   })
 
   function onChange(event) {
@@ -23,8 +30,28 @@ function CreateUserForm () {
     })
   }
 
+  function onSubmit (event){
+    event.preventDefault()
+
+    fetch('/users', {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      if(response.ok){
+        response.json().then(newUser => {
+          setUser(newUser)
+          navigate('/account')
+        })
+      } else {
+        response.json().then(data => setErrors(data.errors))
+      }
+    })
+  }
+
   return (
-    <Form className='d-flex flex-column'> 
+    <Form className='d-flex flex-column' onSubmit={onSubmit}> 
       <Row className='mb-3'>
         <Form.Group as={Col}>
           <Form.Label>Full Name:</Form.Label>
@@ -121,13 +148,13 @@ function CreateUserForm () {
         </Form.Group>
       </Row>
       <Form.Text>
-        <ul>
+        {/* <ul>
           {
             errors.map(value => {
               return <li style={{color: "red" }}><strong>{value}</strong></li>
             })
           }
-        </ul>
+        </ul> */}
       </Form.Text>
 
       <Button variant="primary" type="submit">

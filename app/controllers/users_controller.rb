@@ -20,6 +20,7 @@ class UsersController < ApplicationController
       render json: @user, status: :created
     else
       render json: {errors: ["Please Login first"]}, status: :unauthorized
+    end
   end
 
   #  want functionality to be able to update information about our current user

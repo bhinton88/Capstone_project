@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  resources :order_items
+  resources :order_items, only: [:create]
   resources :users
   resources :categories
   resources :orders
@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get "/me", to: "users#show"
 
   post "/login", to: "sessions#create"
+  delete "/logout", to: "session#destroy"
 
 
   # Routing logic: fallback requests for React Router.

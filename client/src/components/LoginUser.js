@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import {Form, Button} from 'react-bootstrap'
+import { UserContext } from '../context/UserContext'
 
 function LoginUser () {
+
+  const {user, setUser} = useContext(UserContext)
 
   const [errors, setErrors] = useState([])
   const [formData, setFormData] = useState({
@@ -19,11 +22,22 @@ function LoginUser () {
   function onLoginSubmit (event) {
     event.preventDefault()
 
-    
+    fetch('/login',{
+      method: "POST",
+      headers: { "Content-Type":"application/json"},
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      if(response.ok) {
+        response.json().then(user => setUser(user))
+      } else {
+        response.json().then(data => setErrors(data.errors))
+      }
+    })
   }
 
   return(
-    <Form onSubmit={}>
+    <Form onSubmit={onLoginSubmit}>
       <Form.Group className="mb-3">
         <Form.Label>Username:</Form.Label>
         <Form.Control 

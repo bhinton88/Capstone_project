@@ -25,7 +25,7 @@ function Account () {
 
   return(
     <>
-      <CreateUserForm />
+      <h1>Hello!</h1>
     </>
 
   )

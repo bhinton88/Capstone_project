@@ -1,24 +1,34 @@
 import { Container, Navbar, Nav, Button, Modal  } from 'react-bootstrap'
-import { Link, NavLink } from 'react-router-dom'
-import { useState } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCircleUser} from '@fortawesome/free-regular-svg-icons'
 import LoginUser from './LoginUser'
+import { UserContext } from '../context/UserContext'
 
 
 export default function NavBarS() {
 
+  const navigate = useNavigate();
+
+  const {user, setUser} = useContext(UserContext)
 
   const [ expanded, setExpanded] = useState(false)
   const [ show, setShow ]= useState(false)
 
-  function onAccountClick() {
-    setShow(true)
-  }
-
   function closeModal () {
     setShow(false)
   }
+
+  function handleAccountButton() {
+    if(user) {
+      navigate("/account")
+    } else {
+      setShow(true)
+    }
+  }
+
+  console.log(user)
 
   return(
     <>
@@ -31,7 +41,9 @@ export default function NavBarS() {
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/about">About Me</Nav.Link>
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/shop">Shop</Nav.Link>
               </Nav>
-              <Button variant='outline-primary' onClick={onAccountClick}><FontAwesomeIcon icon={faCircleUser}/> Sign in </Button>
+              <Button variant='outline-primary' onClick={handleAccountButton}><FontAwesomeIcon icon={faCircleUser}/>
+              {user ? ` ${user.username}`: " Sign in"}
+              </Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>
