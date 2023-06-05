@@ -40,6 +40,12 @@ export default function NavBarS() {
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/">Home</Nav.Link>
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/about">About Me</Nav.Link>
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/shop">Shop</Nav.Link>
+                {
+                  user ? 
+                  <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/account">My Account</Nav.Link>
+                  :
+                  null
+                }
               </Nav>
               <Button variant='outline-primary' onClick={handleAccountButton}><FontAwesomeIcon icon={faCircleUser}/>
               {user ? ` ${user.username}`: " Sign in"}
