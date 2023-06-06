@@ -1,5 +1,9 @@
 class SessionsController < ApplicationController
 
+  before_action :authorize
+
+  skip_before_action :authorize, only: [:create]
+
   def create
     user = User.find_by(username: params[:username])
     if user&.authenticate(params[:password])
@@ -16,5 +20,10 @@ class SessionsController < ApplicationController
       render json: {errors: ["You must be logged in first"]}, status: :unauthorized
   end
 
-   
+  private
+
+  def authorize
+    render json: {errors: ["Not authorized"]}, status: :unauthorized unless session.include? :user_id
+  end
+  
 end

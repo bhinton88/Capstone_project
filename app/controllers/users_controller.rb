@@ -2,11 +2,11 @@ class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_data
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
 
-  before_action :find_user
+  before_action :find_user, :authorize
 
   #  do not need to find a user prior to CREATING one 
 
-  skip_before_action :find_user, only: [:create]
+  skip_before_action :find_user, :authorize, only: [:create]
 
   def create
     user = User.create!(user_params)
@@ -53,5 +53,9 @@ class UsersController < ApplicationController
 
   def handle_record_not_found
     render json: {errors: ["User not found"]}, status: :not_found
+  end
+
+  def authorize
+    render json: {errors: ["Not authorized"]}, status: :unauthorized unless session.include? :user_id
   end
 end

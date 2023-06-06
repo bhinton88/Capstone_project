@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   resources :order_items, only: [:create]
   resources :users
-  resources :categories
+  resources :categories, only: [:index]
   resources :orders
   resources :items
 

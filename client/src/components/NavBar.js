@@ -37,7 +37,7 @@ export default function NavBarS() {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/">Home</Nav.Link>
-                <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/about">About Me</Nav.Link>
+                <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/about">About Wxmanknits</Nav.Link>
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/shop">Shop</Nav.Link>
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/account">My Account</Nav.Link>
               </Nav>
