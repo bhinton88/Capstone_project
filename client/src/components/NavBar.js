@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCircleUser} from '@fortawesome/free-regular-svg-icons'
 import LoginUser from './LoginUser'
 import { UserContext } from '../context/UserContext'
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 
 export default function NavBarS() {
@@ -42,6 +43,27 @@ export default function NavBarS() {
               </Nav>
               <Button variant='outline-primary' onClick={handleAccountButton}><FontAwesomeIcon icon={faCircleUser}/>
               {user ? ` ${user.username}`: " Sign in"}
+              </Button>
+              <Button 
+                className='ms-2 rounded-circle'
+                variant="outline-primary" 
+                style={{ height: "3rem", width: "3rem", position: "relative"}}
+              >
+                <FontAwesomeIcon icon={faCartShopping} size="lg" />
+                <div 
+                  className='rounded-circle bg-danger d-flex justify-content-center align-items-center'
+                  style={{
+                    color: "white", 
+                    width:"1.5rem", 
+                    height: "1.5rem",
+                    position:"absolute",
+                    top: 0,
+                    right: 0,
+                    transform: "translate(15px)",
+                  }}
+                >
+                  3
+                </div>
               </Button>
           </Navbar.Collapse>
         </Container>

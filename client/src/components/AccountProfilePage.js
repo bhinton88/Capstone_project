@@ -2,6 +2,8 @@ import { useContext, useState } from "react"
 import { UserContext } from "../context/UserContext"
 import { Form, Row, Col, Button } from "react-bootstrap"
 import { states } from "../data/States"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 
 function AccountProfilePage () {
   
@@ -52,8 +54,14 @@ function AccountProfilePage () {
     })
   }
 
-  console.log(userFormData)
+  function onSignoutClick() {
+    fetch('/logout',{
+      method: "DELETE"
+    })
 
+    setUser(null)
+  }
+  
   return (
     <>
       <Form onSubmit={onSubmit}>
@@ -142,11 +150,13 @@ function AccountProfilePage () {
           <Form.Text>
             <ul>
               {
-                errors.map(value => <li style={{color: "red" }}><strong>{value}</strong></li>)
+                errors.map(value => <li key={value} style={{color: "red" }}><strong>{value}</strong></li>)
               }
             </ul>
           </Form.Text>
           <Button type="submit">Edit Profile</Button>
+          <Button className="ms-3">Delete my profile</Button>
+          <Button className="ms-3" onClick={onSignoutClick}><FontAwesomeIcon icon={faRightFromBracket} size="lg" /> Sign Me Out!</Button>
       </Form>
     </>
 

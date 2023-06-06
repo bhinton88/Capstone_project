@@ -25,8 +25,7 @@ class UsersController < ApplicationController
 
   #  want functionality to be able to update information about our current user
   def update
-    @user.update(user_params)
-    byebug
+    @user.update!(user_params)
     render json: @user, status: :created
   end
 
@@ -49,7 +48,7 @@ class UsersController < ApplicationController
   end
 
   def handle_invalid_data(invalid)
-    render json: {errors: invalid.record.errors.full_messages }, status: :unprocessable_tentity
+    render json: {errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
   end
 
   def handle_record_not_found
