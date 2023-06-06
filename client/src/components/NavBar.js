@@ -27,9 +27,7 @@ export default function NavBarS() {
       setShow(true)
     }
   }
-
-  console.log(user)
-
+  
   return(
     <>
       <Navbar className='bg-white shadow-sm mb-3'>
@@ -40,12 +38,7 @@ export default function NavBarS() {
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/">Home</Nav.Link>
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/about">About Me</Nav.Link>
                 <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/shop">Shop</Nav.Link>
-                {
-                  user ? 
-                  <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/account">My Account</Nav.Link>
-                  :
-                  null
-                }
+                <Nav.Link onClick={() => setExpanded(false)} as={Link} to="/account">My Account</Nav.Link>
               </Nav>
               <Button variant='outline-primary' onClick={handleAccountButton}><FontAwesomeIcon icon={faCircleUser}/>
               {user ? ` ${user.username}`: " Sign in"}

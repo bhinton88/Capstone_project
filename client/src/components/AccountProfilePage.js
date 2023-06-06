@@ -1,13 +1,13 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../context/UserContext"
-import { Form, Row, Col } from "react-bootstrap"
+import { Form, Row, Col, Button } from "react-bootstrap"
 import { states } from "../data/States"
 
 function AccountProfilePage () {
   
   const { user, setUser } = useContext(UserContext)
 
-  const [ toggle, setToggle] = useState(false)
+  const [errors, setErrors] = useState([])
 
   const {username, full_name, address, city, state, zip_code, email} = user
 
@@ -18,7 +18,7 @@ function AccountProfilePage () {
     city: city,
     state: state,
     zip_code: zip_code,
-    email: email
+    email: email,
   })
 
   function onChange(event) {
@@ -28,9 +28,35 @@ function AccountProfilePage () {
     })
   }
 
+  function updatingUser (user) {
+    setUser({
+      ...user,
+      user
+    })
+  }
+
+  function onSubmit(event){
+    event.preventDefault()
+
+    fetch(`/users/${user.id}`,{
+      method: "PATCH",
+      headers: {"Content-type":"application/json"},
+      body: JSON.stringify(userFormData)
+    })
+    .then(response => {
+      if(response.ok){
+        response.json().then(user => updatingUser(user))
+      } else {
+        response.json().then(data => setErrors(data.errors))
+      }
+    })
+  }
+
+  console.log(userFormData)
+
   return (
     <>
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm="2">
             Name: 
@@ -70,7 +96,6 @@ function AccountProfilePage () {
                 name="address"
                 value={userFormData.address}
                 onChange={onChange}
-                readOnly={toggle}
               />
           </Col>
         </Form.Group>
@@ -83,7 +108,6 @@ function AccountProfilePage () {
               name="city"
               value={userFormData.city}
               onChange={onChange}
-              readOnly={toggle}
             />
           </Col>
           <Col>
@@ -96,7 +120,6 @@ function AccountProfilePage () {
               name="state"
               value={userFormData.state}
               onChange={onChange}
-              disabled={toggle}
             >
             {states.map(state => <option key={state.name} value={state.name}>{state.name}</option>)}
             </Form.Select>
@@ -113,10 +136,17 @@ function AccountProfilePage () {
                 name="zip_code"
                 value={userFormData.zip_code}
                 onChange={onChange}
-                readOnly={toggle}
               />
             </Col>
           </Form.Group>
+          <Form.Text>
+            <ul>
+              {
+                errors.map(value => <li style={{color: "red" }}><strong>{value}</strong></li>)
+              }
+            </ul>
+          </Form.Text>
+          <Button type="submit">Edit Profile</Button>
       </Form>
     </>
 

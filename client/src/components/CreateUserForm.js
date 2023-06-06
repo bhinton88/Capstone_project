@@ -20,7 +20,8 @@ function CreateUserForm () {
     city: "",
     state: "",
     zip_code: 0,
-    email: ""
+    email: "",
+    admin_rights: false
   })
 
   function onChange(event) {
@@ -148,15 +149,12 @@ function CreateUserForm () {
         </Form.Group>
       </Row>
       <Form.Text>
-        {/* <ul>
+        <ul>
           {
-            errors.map(value => {
-              return <li style={{color: "red" }}><strong>{value}</strong></li>
-            })
+            errors.map(value => <li style={{color: "red" }}><strong>{value}</strong></li>)
           }
-        </ul> */}
+        </ul>
       </Form.Text>
-
       <Button variant="primary" type="submit">
         Create Account!
       </Button>

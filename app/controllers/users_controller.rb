@@ -26,6 +26,7 @@ class UsersController < ApplicationController
   #  want functionality to be able to update information about our current user
   def update
     @user.update(user_params)
+    byebug
     render json: @user, status: :created
   end
 
@@ -44,7 +45,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:username, :password, :password_confirmation, :full_name, :address, :city, :state, :zip_code, :email)
+    params.permit(:username, :password, :password_confirmation, :full_name, :address, :city, :state, :zip_code, :email, :admin_rights)
   end
 
   def handle_invalid_data(invalid)

@@ -1,23 +1,19 @@
-import { Tab,Tabs } from "react-bootstrap"
-import AccountProfilePage from "../components/AccountProfilePage"
+import { useContext } from "react"
+import AccountTabs from "../components/AccountTabs"
+import { UserContext } from "../context/UserContext"
 
 
 function Account () {
 
+  const {user, setUser} = useContext(UserContext)
+
   return(
     <>
-      <Tabs 
-        defaultActiveKey="profile"
-        className="mb-3"
-        justify
-      >
-        <Tab eventKey='profile' title="Profile">
-          <AccountProfilePage />
-        </Tab>
-        <Tab eventKey="orders" title="Orders">
-
-        </Tab>
-      </Tabs>
+      { user ?
+        <AccountTabs />
+        :
+        <h1> Please Login or create an account! </h1>
+      }
     </>
 
   )
