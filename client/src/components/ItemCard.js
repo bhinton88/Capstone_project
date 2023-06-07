@@ -10,7 +10,7 @@ function ItemCard({item}) {
 
   return (
     <Card>
-      {/* <Card.Img as="img" variant="top"> */}
+      <Card.Img as="img" variant="top" src={photo_url}/>
       <Card.Body>
         <Card.Title>{item_name}</Card.Title>
         <Card.Text>
