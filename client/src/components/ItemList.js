@@ -1,18 +1,44 @@
-import { useContext, useState } from "react"
+import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { CategoryContext } from "../context/CategoriesContext"
+import { Col, Row } from "react-bootstrap"
+import ItemCard from "./ItemCard"
 
 
 function ItemList() {
 
   const {category_name} = useParams()
+  const [items, setItems] = useState([])
 
-  const {categories, setCategories } = useContext(CategoryContext)
+  useEffect(() => {
+    fetch('/items')
+    .then(response => response.json())
+    .then(data => setItems(data))
+  }, [])
 
-  const categoryItems = categories.filter(value => value.category_name === category_name).map(value => value.items)
-  const itemsArray = categoryItems[0]
+  const sortedItems = items.filter(item => item.category_name === category_name)
 
-  console.log(itemsArray)
+  console.log(sortedItems)
+
+  return (
+    <>
+    <h1 align="center" className="p-3">{category_name}: </h1>
+      <Row xs={1} md={3} className="g-4">
+        {
+          sortedItems.map(item =>{
+            return(
+            <Col align="center" key={item.id}>
+              <ItemCard item={item}/>
+            </Col>
+            )
+          })
+        }
+      </Row>
+    </>
+
+
+  )
+
+
 
 
 }
