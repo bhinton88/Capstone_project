@@ -7,6 +7,7 @@ import ItemList from './components/ItemList';
 import CreateUserForm from './components/CreateUserForm';
 import { UserProvider } from './context/UserContext';
 import { CategoryProvider } from './context/CategoriesContext';
+import { ItemProvider } from './context/ItemContext';
 
 
 
@@ -16,13 +17,15 @@ function App() {
     <>
       <UserProvider>
         <CategoryProvider>
-          <NavBarS />
-          <Routes>
-            <Route path='/new_user' element={<CreateUserForm />}/>
-            <Route path='/account' element={<Account />}/>
-            <Route path='/shop' element={<Shop />} />
-            <Route path='/shop/:category_name' element={<ItemList />} />
-          </Routes>
+          <ItemProvider>
+            <NavBarS />
+            <Routes>
+              <Route path='/new_user' element={<CreateUserForm />}/>
+              <Route path='/account' element={<Account />}/>
+              <Route path='/shop' element={<Shop />} />
+              <Route path='/shop/:category_name' element={<ItemList />} />
+            </Routes>
+          </ItemProvider>
         </CategoryProvider>
       </UserProvider>
     </>

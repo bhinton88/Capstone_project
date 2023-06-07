@@ -1,20 +1,16 @@
-import { useState, useEffect } from "react"
+import { useContext } from "react"
 import { useParams } from "react-router-dom"
 import { Col, Row } from "react-bootstrap"
 import ItemCard from "./ItemCard"
+import { ItemContext } from "../context/ItemContext"
 
 
 function ItemList() {
 
   const {category_name} = useParams()
-  const [items, setItems] = useState([])
 
-  useEffect(() => {
-    fetch('/items')
-    .then(response => response.json())
-    .then(data => setItems(data))
-  }, [])
-
+  const {items, setItems} = useContext(ItemContext)
+ 
   const sortedItems = items.filter(item => item.category_name === category_name)
 
   console.log(sortedItems)
