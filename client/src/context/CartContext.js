@@ -1,20 +1,15 @@
-import { createContext, useContext, useState } from "react";
-import { ItemContext } from "./ItemContext";
-
-
+import { createContext, useState } from "react";
 
 const CartContext = createContext({
   items: [],
   getItemQuantityInCart: () => {},
   addItemToCart: () => {},
   removeItemFromCart: () => {},
-  deleteCart: () => {},
+  deleteAllOfAnItemFromCart: () => {},
   getTotalCost: () => {}
 });
 
 function CartProvider ({children}) {
-
-  // const { items, setItems} = useContext(ItemContext)
 
   const [cartItems, setCartItems] = useState([])
 
@@ -41,51 +36,55 @@ function CartProvider ({children}) {
       ])
 
     } else { // if we are adding to items already in our cart, we need to update the quanity and the total cost 
-      const updatedCart = cartItems.map(item =>{
-        if(id === item.id) {
-          item.quanity += 1
-          item.cost += price
-        } else {
-          return item
-        }
-
-        setCartItems([
-          ...cartItems,
-          updatedCart
-        ])
-      })
+      const updatedCart = cartItems.map(item =>  item.id === id ?
+        {...item, quantity: item.quantity + 1, cost: item.cost + price}
+        :
+        item
+      )
+      setCartItems([
+        ...cartItems, 
+        updatedCart
+      ])
     }
+  }
+
+  function deleteAllOfAnItemFromCart (id) {
+
+    const updatedItems = cartItems.filter(item => item.id !== id)
+
+    setCartItems([...cartItems, updatedItems])
+
   }
 
   function removeItemFromCart(id, price) {
     const quantity = getItemQuantityInCart(id)
 
     if(quantity === 1){
-      // we will need to use use a pre-defined function which removes all items of a certain item from the cart
+     deleteAllOfAnItemFromCart(id)
 
-    } else {
-      const updatedCart = cartItems.map(item =>{
-        if(id === item.id) {
-          item.quanity -= 1
-          item.cost -= price
-        } else {
-          return item
-        }
-
-        setCartItems([
-          ...cartItems,
-          updatedCart
-        ])
-      })
+    } else { // if we are pulling out items already in our cart, we need to update the quanity and the total cost 
+      const updatedCart = cartItems.map(item =>  item.id === id ?
+        {...item, quantity: item.quantity - 1, cost: item.cost - price}
+        :
+        item
+      )
+      setCartItems([
+        ...cartItems, 
+        updatedCart
+      ])
     }
-
   }
 
-  function deleteCart () {
-
-  }
 
   function getTotalCost () {
+    let totalCost = 0;
+
+    cartItems.map(item => {
+      totalCost = item.cost + totalCost
+      return totalCost
+    })
+
+    return totalCost
 
   }
 
@@ -94,7 +93,7 @@ function CartProvider ({children}) {
     getItemQuantityInCart,
     addItemToCart,
     removeItemFromCart,
-    deleteCart,
+    deleteAllOfAnItemFromCart,
     getTotalCost
   }
 

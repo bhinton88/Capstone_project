@@ -6,6 +6,7 @@ import {faCircleUser} from '@fortawesome/free-regular-svg-icons'
 import LoginUser from './LoginUser'
 import { UserContext } from '../context/UserContext'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { CartContext } from '../context/CartContext'
 
 
 export default function NavBarS() {
@@ -13,6 +14,8 @@ export default function NavBarS() {
   const navigate = useNavigate();
 
   const {user, setUser} = useContext(UserContext)
+
+  const {items} = useContext(CartContext)
 
   const [ expanded, setExpanded] = useState(false)
   const [ show, setShow ]= useState(false)
@@ -62,7 +65,7 @@ export default function NavBarS() {
                     transform: "translate(15px)",
                   }}
                 >
-                  3
+                  {items.length}
                 </div>
               </Button>
           </Navbar.Collapse>
