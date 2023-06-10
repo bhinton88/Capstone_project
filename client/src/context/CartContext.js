@@ -11,8 +11,9 @@ const CartContext = createContext({
 
 function CartProvider ({children}) {
 
-  const [cartItems, setCartItems] = useState([])
 
+  const [cartItems, setCartItems] = useState([])
+  
   function getItemQuantityInCart(id) {
     const quantityOfAnItem = cartItems.find(item => item.id === id)?.quantity
 
@@ -49,10 +50,9 @@ function CartProvider ({children}) {
   }
 
   function deleteAllOfAnItemFromCart (id) {
+    const updatedCart = cartItems.filter(item => item.id !== id)
 
-    const updatedItems = cartItems.filter(item => item.id !== id)
-
-    setCartItems([...cartItems, updatedItems])
+    setCartItems(updatedCart)
 
   }
 

@@ -9,6 +9,9 @@ function ItemCard({item}) {
 
   const {items, getItemQuantityInCart, addItemToCart,removeItemFromCart,deleteAllOfAnItemFromCart, getTotalCost } = useContext(CartContext)
 
+  // need to be able to determine how many of a particular item are in the cart
+  const quantityInCart = getItemQuantityInCart(item.id)
+
   console.log(items)
 
   const CURRENCY_FORMATTER = new Intl.NumberFormat(undefined, {
@@ -16,7 +19,7 @@ function ItemCard({item}) {
     style: "currency"
   })
   
-  function FormatCurrency(number) {
+  function formatCurrency(number) {
     return CURRENCY_FORMATTER.format(number)
   }
 
@@ -29,9 +32,48 @@ function ItemCard({item}) {
           {description}
         </Card.Text>
         <Card.Text>
-          Price: {FormatCurrency(price)}
+          Price: {formatCurrency(price)}
         </Card.Text>
-        <Button onClick={() => addItemToCart(item.id, item.price)}>Add to cart</Button>
+        { quantityInCart === 0 ?
+          (<Button onClick={() => addItemToCart(item.id, item.price)}>Add to cart</Button>)
+          :
+          (quantityInCart < quantity_available ? 
+            (<div className="d-flex align-items-center justify-content-center" style={{gap: ".5rem"}}>
+              <div className="d-flex align-items-center justify-content-center" style={{gap: ".5rem"}}>
+                <Button onClick={() => removeItemFromCart(item.id, item.price)}>-</Button>
+                <div>
+                  <span className="fs-3">{quantityInCart}</span>
+                  in cart
+                </div>
+                <Button onClick={() => addItemToCart(item.id, item.price)}>+</Button>
+              </div>
+              <Button 
+                variant="danger" 
+                size="sm"
+                onClick={() => deleteAllOfAnItemFromCart(item.id)}
+              >
+              Remove from cart
+              </Button>
+            </div>)
+            :
+            <div>
+              <div className="d-flex align-items-center justify-content-center" style={{gap: ".5rem"}}>
+                <Button onClick={() => removeItemFromCart(item.id, item.price)}>-</Button>
+                <div>
+                  <span className="fs-3">{quantityInCart}</span>
+                    in cart
+                </div>
+              </div>
+              <Button 
+                variant="danger" 
+                size="sm"
+                onClick={() => deleteAllOfAnItemFromCart(item.id)}
+              >
+              Remove from cart
+              </Button>
+            </div>
+            )
+          }
       </Card.Body>
     </Card>
   )
