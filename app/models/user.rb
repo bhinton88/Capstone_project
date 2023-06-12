@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   # we set a method to run before creation of a new user
 
-  before_validation :create_on_stripe, on: [:create, :update]
+  before_validation :create_on_stripe, on: :create
 
   #  for the email and name, since this is an INSTANCE method, the self is implicit
 

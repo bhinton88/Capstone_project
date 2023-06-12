@@ -13,22 +13,19 @@ export default function NavBarS() {
 
   const navigate = useNavigate();
 
-  const {user, setUser} = useContext(UserContext)
-
-  const {items} = useContext(CartContext)
+  const {user} = useContext(UserContext)
+  const {cartQuantity, openCart} = useContext(CartContext)
 
   const [ expanded, setExpanded] = useState(false)
-  const [ show, setShow ]= useState(false)
+  const [ showModal, setShowModal ]= useState(false)
 
-  function closeModal () {
-    setShow(false)
-  }
+  const closeModal = () =>  setShowModal(false)
 
   function handleAccountButton() {
     if(user) {
       navigate("/account")
     } else {
-      setShow(true)
+      setShowModal(true)
     }
   }
   
@@ -47,12 +44,15 @@ export default function NavBarS() {
               <Button variant='outline-primary' onClick={handleAccountButton}><FontAwesomeIcon icon={faCircleUser}/>
               {user ? ` ${user.username}`: " Sign in"}
               </Button>
+
               <Button 
                 className='ms-2 rounded-circle'
                 variant="outline-primary" 
                 style={{ height: "3rem", width: "3rem", position: "relative"}}
+                onClick={openCart}
               >
                 <FontAwesomeIcon icon={faCartShopping} size="lg" />
+                {  cartQuantity > 0 ?
                 <div 
                   className='rounded-circle bg-danger d-flex justify-content-center align-items-center'
                   style={{
@@ -65,13 +65,16 @@ export default function NavBarS() {
                     transform: "translate(15px)",
                   }}
                 >
-                  {items.length}
+                  {cartQuantity}
                 </div>
+                : 
+                  null
+                }
               </Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Modal show={show} onHide={closeModal}>
+      <Modal show={showModal} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>Sign in to your account:</Modal.Title>
         </Modal.Header>

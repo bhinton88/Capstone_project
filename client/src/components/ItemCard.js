@@ -7,12 +7,10 @@ function ItemCard({item}) {
 
   const {item_name, price, description, quantity_available, photo_url } = item
 
-  const {items, getItemQuantityInCart, addItemToCart,removeItemFromCart,deleteAllOfAnItemFromCart, getTotalCost } = useContext(CartContext)
+  const { getItemQuantityInCart, addItemToCart,removeItemFromCart,deleteAllOfAnItemFromCart} = useContext(CartContext)
 
   // need to be able to determine how many of a particular item are in the cart
   const quantityInCart = getItemQuantityInCart(item.id)
-
-  console.log(items)
 
   const CURRENCY_FORMATTER = new Intl.NumberFormat(undefined, {
     currency: "USD", 

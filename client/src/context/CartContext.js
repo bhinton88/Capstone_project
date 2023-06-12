@@ -1,18 +1,37 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import ShoppingCart from "../components/ShoppingCart";
 
 const CartContext = createContext({
-  items: [],
+  cartItems: [],
   getItemQuantityInCart: () => {},
   addItemToCart: () => {},
   removeItemFromCart: () => {},
   deleteAllOfAnItemFromCart: () => {},
-  getTotalCost: () => {}
+  getTotalCost: () => {},
+  openCart: () => {},
+  closeCart: () => {},
+  cartQuantity: Number,
 });
+
+// here we are retrieving our cartItems stored in local storage and assigning them back to our 
+// state so that we will have access to them
+
+const cartFromLocalStorage = JSON.parse(localStorage.getItem('cartItems') || '[]') 
 
 function CartProvider ({children}) {
 
+  const [cartItems, setCartItems] = useState(cartFromLocalStorage)
+  const [isOpen, setIsOpen] = useState(false)
 
-  const [cartItems, setCartItems] = useState([])
+  // we store our cartItems in local storage so they persist, we update that upon change of 
+  // cart Items
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems))
+  },[cartItems])
+
+  const openCart = () => setIsOpen(true)
+
+  const closeCart = () => setIsOpen(false) 
   
   function getItemQuantityInCart(id) {
     const quantityOfAnItem = cartItems.find(item => item.id === id)?.quantity
@@ -75,7 +94,6 @@ function CartProvider ({children}) {
     }
   }
 
-
   function getTotalCost () {
     let totalCost = 0;
 
@@ -88,18 +106,24 @@ function CartProvider ({children}) {
 
   }
 
+  const cartQuantity = cartItems.reduce((quantity, item) => item.quantity + quantity, 0) 
+
   const contextValue = {
-    items: cartItems,
+    cartItems: cartItems,
     getItemQuantityInCart,
     addItemToCart,
     removeItemFromCart,
     deleteAllOfAnItemFromCart,
-    getTotalCost
+    getTotalCost,
+    cartQuantity,
+    openCart,
+    closeCart
   }
 
   return (
     <CartContext.Provider value={contextValue}>
       {children}
+      <ShoppingCart isOpen={isOpen} />
     </CartContext.Provider>
   )
 
