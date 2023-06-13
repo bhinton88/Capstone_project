@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
     else
       render json: {errors: ["Not authorized"]}, status: :unauthorized
+    end
   end
 
   def destroy
@@ -18,6 +19,7 @@ class SessionsController < ApplicationController
       render json {}
     else 
       render json: {errors: ["You must be logged in first"]}, status: :unauthorized
+    end
   end
 
   private

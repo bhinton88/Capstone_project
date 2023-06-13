@@ -4,8 +4,6 @@ class UsersController < ApplicationController
 
   before_action :find_user, :authorize
 
-  #  do not need to find a user prior to CREATING one 
-
   skip_before_action :find_user, :authorize, only: [:create]
 
   def create
