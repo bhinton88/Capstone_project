@@ -5,7 +5,7 @@ import { states } from "../data/States"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 
-function AccountProfilePage () {
+function EditProfileTab () {
   
   const { user, updateUser, logoutUser, errors } = useContext(UserContext)
 
@@ -138,4 +138,4 @@ function AccountProfilePage () {
 
 }
 
-export default AccountProfilePage
+export default EditProfileTab

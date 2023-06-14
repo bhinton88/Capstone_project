@@ -105,9 +105,6 @@ function UserProvider({children}){
     deleteUser
   }
 
-  
-
-
   return(
 
     <UserContext.Provider value={contextValue}>

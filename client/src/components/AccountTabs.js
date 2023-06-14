@@ -1,6 +1,6 @@
 import { Tabs,Tab } from "react-bootstrap"
-import AccountProfilePage from "../components/AccountProfilePage"
 import InventoryManagement from "./InventoryManagement"
+import EditProfileTab from "./EditProfileTab"
 import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
 
@@ -15,7 +15,7 @@ function AccountTabs () {
     justify
   >
     <Tab eventKey='profile' title="Profile">
-      <AccountProfilePage />
+      <EditProfileTab />
     </Tab>
     <Tab eventKey="orders" title="Orders">
 
