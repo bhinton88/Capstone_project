@@ -23,11 +23,8 @@ function ItemCard({item}) {
     return CURRENCY_FORMATTER.format(number)
   }
 
-  function determineIfSoldOut() {
-    if(quantity_available === 0){
-      setSoldOutItem(true)
-    }
-  }
+  // check to see if an item is sold out.. if so set it our toggle to true and disables our add to cart button
+  if(quantity_available === 0) return setSoldOutItem(true)
 
 
   return (
@@ -48,7 +45,12 @@ function ItemCard({item}) {
           Price: {formatCurrency(price)}
         </Card.Text>
         { quantityInCart === 0 ?
-          (<Button onClick={() => addItemToCart(item.id, item.price)}>Add to cart</Button>)
+          (<Button 
+              onClick={() => addItemToCart(item.id, item.price)}
+              disabled={soldOutItem ? true : false}
+            >
+              {soldOutItem ? "Sold out" : "Add to Cart"}
+            </Button>)
           :
           ((quantityInCart <= quantity_available) ?
               (<div className="d-flex align-items-center flex-column" style={{gap: ".5rem"}}>

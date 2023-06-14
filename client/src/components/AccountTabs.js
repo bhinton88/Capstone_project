@@ -1,5 +1,6 @@
 import { Tabs,Tab } from "react-bootstrap"
 import AccountProfilePage from "../components/AccountProfilePage"
+import InventoryManagement from "./InventoryManagement"
 import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
 
@@ -21,8 +22,8 @@ function AccountTabs () {
     </Tab>
     {
       user.admin_rights ?
-      <Tab eventKey="itemManagement" title="Manage Items">
-
+      <Tab eventKey="inventoryManagement" title="Manage Inventory">
+        <InventoryManagement />
       </Tab>
       :
 
