@@ -2,15 +2,11 @@ import {Form, Button, Row, Col } from 'react-bootstrap'
 import { useContext, useState } from 'react'
 import { states } from '../data/States'
 import { UserContext } from '../context/UserContext'
-import { useNavigate } from 'react-router-dom'
 
 function CreateUserForm () {
 
-  const navigate = useNavigate();
+  const { createNewUser, errors } = useContext(UserContext)
 
-  const { setUser} = useContext(UserContext)
-
-  const [errors, setErrors] =  useState([])
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -33,22 +29,7 @@ function CreateUserForm () {
 
   function onSubmit (event){
     event.preventDefault()
-
-    fetch('/users', {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(formData)
-    })
-    .then(response => {
-      if(response.ok){
-        response.json().then(newUser => {
-          setUser(newUser)
-          navigate('/account')
-        })
-      } else {
-        response.json().then(data => setErrors(data.errors))
-      }
-    })
+    createNewUser(formData)
   }
 
   return (

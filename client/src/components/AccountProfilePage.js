@@ -7,11 +7,12 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 
 function AccountProfilePage () {
   
-  const { user, setUser } = useContext(UserContext)
+  const { user, updateUser, logoutUser, errors } = useContext(UserContext)
 
-  const [errors, setErrors] = useState([])
+  //  dont forget to add delete user ability 
 
-  const {username, full_name, address, city, state, zip_code, email} = user
+  // further deconstruction of the user object 
+  const {id, username, full_name, address, city, state, zip_code, email} = user
 
   const [userFormData, setUserFormData] = useState({
     username: username,
@@ -30,38 +31,11 @@ function AccountProfilePage () {
     })
   }
 
-  function updatingUser (user) {
-    setUser({
-      ...user,
-      user
-    })
-  }
-
   function onSubmit(event){
     event.preventDefault()
-
-    fetch(`/users/${user.id}`,{
-      method: "PATCH",
-      headers: {"Content-type":"application/json"},
-      body: JSON.stringify(userFormData)
-    })
-    .then(response => {
-      if(response.ok){
-        response.json().then(user => updatingUser(user))
-      } else {
-        response.json().then(data => setErrors(data.errors))
-      }
-    })
+    updateUser(id, userFormData)
   }
 
-  function onSignoutClick() {
-    fetch('/logout',{
-      method: "DELETE"
-    })
-
-    setUser(null)
-  }
-  
   return (
     <>
       <Form onSubmit={onSubmit}>
@@ -156,7 +130,7 @@ function AccountProfilePage () {
           </Form.Text>
           <Button type="submit">Edit Profile</Button>
           <Button className="ms-3">Delete my profile</Button>
-          <Button className="ms-3" onClick={onSignoutClick}><FontAwesomeIcon icon={faRightFromBracket} size="lg" /> Sign Me Out!</Button>
+          <Button className="ms-3" onClick={logoutUser}><FontAwesomeIcon icon={faRightFromBracket} size="lg" /> Sign Me Out!</Button>
       </Form>
     </>
 

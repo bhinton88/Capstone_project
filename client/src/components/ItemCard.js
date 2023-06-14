@@ -28,13 +28,13 @@ function ItemCard({item}) {
 
 
   return (
-    <Card className="h-100">
+    <Card className="w-100">
       <Card.Img 
         as="img" 
         variant="top" 
         src={photo_url}
         height="400px"
-        style={{ objectFit: "cover"}}
+        style={{ objectFit: "contain"}}
       />
       <Card.Body className="d-flex flex-column">
         <Card.Title>{item_name}</Card.Title>

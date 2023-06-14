@@ -34,6 +34,41 @@ function ItemProvider ({children}) {
     })
   }
 
+
+  function updateItem (id, updatedItem) {
+    fetch(`/items/${id}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json" },
+      body: JSON.stringify(updatedItem)
+    })
+    .then(response => {
+      if(response.ok){
+        response.json().then(updatedItem =>{
+          const updatedItemsArray = items.map(item =>{
+            if(item.id === updatedItem.id){
+              return updatedItem
+            } else {
+              return item
+            }
+          })
+          setItems(updatedItemsArray)
+        })
+      } else {
+        response.json().then(data => setErrors(data.errors))
+      }
+    })
+  }
+
+  function deleteItem (id) {
+    fetch(`/items/${id}`,{
+      method: "DELETE",
+    })
+
+    const removedItemArray = items.filter(item => item.id !== id)
+
+    setItems(removedItemArray)
+  }
+
   const contextValue = {
     items: items,
     errors: errors,
@@ -43,7 +78,7 @@ function ItemProvider ({children}) {
   }
 
   return (
-    <ItemContext.Provider value={{items, setItems}}>
+    <ItemContext.Provider value={contextValue}>
       {children}
     </ItemContext.Provider>
   )
