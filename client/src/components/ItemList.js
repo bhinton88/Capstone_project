@@ -9,11 +9,9 @@ function ItemList() {
 
   const {category_name} = useParams()
 
-  const {items, setItems} = useContext(ItemContext)
+  const {items} = useContext(ItemContext)
  
   const sortedItems = items.filter(item => item.category_name === category_name)
-
-  console.log(sortedItems)
 
   return (
     <>

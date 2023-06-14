@@ -1,20 +1,43 @@
 import { useContext } from "react"
-import { Offcanvas } from "react-bootstrap"
+import { Offcanvas, Stack, Button } from "react-bootstrap"
 import { CartContext } from "../context/CartContext"
+import CartItem from "./CartItem"
 
 
 function ShoppingCart ({isOpen}) {
 
-  const { closeCart } = useContext(CartContext)
+  const { closeCart, cartItems } = useContext(CartContext)
+
+  const totalCartCost = cartItems.reduce((total, item) => total + (item?.cost || 0), 0)
+
+  const CURRENCY_FORMATTER = new Intl.NumberFormat(undefined, {
+    currency: "USD", 
+    style: "currency"
+  })
+
+  function formatCurrency(number) {
+    return CURRENCY_FORMATTER.format(number)
+  }
 
   return (
-    <Offcanvas show={isOpen} onHide={closeCart}  placement="end">
+    <Offcanvas className="w-40" show={isOpen} onHide={closeCart}  placement="end">
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+        <Offcanvas.Title>Cart</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
+        <Stack gap={3} className="mb-3">
+          {
+            cartItems.map(item => {
+              return <CartItem key={item.id} item={item} />
+            })
+          }
+          <div className="ms-auto fw-bold fs-5">
+            Total: {formatCurrency(totalCartCost)}
+          </div>
+        </Stack>
+        <Stack >
+          <Button>Checkout</Button>
+        </Stack>
       </Offcanvas.Body>
     </Offcanvas>
   )

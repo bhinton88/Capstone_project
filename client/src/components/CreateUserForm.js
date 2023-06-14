@@ -8,7 +8,7 @@ function CreateUserForm () {
 
   const navigate = useNavigate();
 
-  const {user, setUser} = useContext(UserContext)
+  const { setUser} = useContext(UserContext)
 
   const [errors, setErrors] =  useState([])
   const [formData, setFormData] = useState({

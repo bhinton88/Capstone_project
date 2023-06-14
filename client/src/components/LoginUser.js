@@ -4,7 +4,7 @@ import { UserContext } from '../context/UserContext'
 
 function LoginUser () {
 
-  const {user, setUser} = useContext(UserContext)
+  const {setUser} = useContext(UserContext)
 
   const [errors, setErrors] = useState([])
   const [formData, setFormData] = useState({
@@ -60,11 +60,11 @@ function LoginUser () {
         />
       </Form.Group>
       <Form.Text>
-        {/* <ul>
+        <ul>
           {
             errors.map(value => <li key={value} style = {{color: "red"}}> <strong> {value} </strong> </li>)
           }
-        </ul> */}
+        </ul>
       </Form.Text>
       <Button variant="primary" type="submit">
         Submit

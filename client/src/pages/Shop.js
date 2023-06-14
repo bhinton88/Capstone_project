@@ -9,7 +9,7 @@ import CategoryCard from "../components/CategoryCard"
 
 function Shop () {
 
-  const { categories , setCategories } = useContext(CategoryContext)
+  const { categories } = useContext(CategoryContext)
 
   console.log(categories)
 

@@ -5,7 +5,7 @@ import { UserContext } from "../context/UserContext"
 
 function Account () {
 
-  const {user, setUser} = useContext(UserContext)
+  const {user} = useContext(UserContext)
 
   return(
     <>
