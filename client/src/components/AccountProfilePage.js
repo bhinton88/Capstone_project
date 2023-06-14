@@ -130,7 +130,7 @@ function AccountProfilePage () {
           </Form.Text>
           <Button type="submit">Edit Profile</Button>
           <Button className="ms-3">Delete my profile</Button>
-          <Button className="ms-3" onClick={logoutUser}><FontAwesomeIcon icon={faRightFromBracket} size="lg" /> Sign Me Out!</Button>
+          <Button className="ms-3" onClick={() => logoutUser()}><FontAwesomeIcon icon={faRightFromBracket} size="lg" /> Sign Me Out!</Button>
       </Form>
     </>
 

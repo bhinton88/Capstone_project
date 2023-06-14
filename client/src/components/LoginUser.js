@@ -9,8 +9,9 @@ function LoginUser () {
 
   const [formData, setFormData] = useState({
     username: "",
-    password: ""
+    password: "",
   })
+
 
   function onChange(event) {
     setFormData({
@@ -19,8 +20,13 @@ function LoginUser () {
     })
   }
 
+  function onSubmit(event){
+    event.preventDefault()
+    loginUser(formData)
+  }
+
   return(
-    <Form onSubmit={loginUser()}>
+    <Form onSubmit={onSubmit}>
       <Form.Group className="mb-3">
         <Form.Label>Username:</Form.Label>
         <Form.Control 

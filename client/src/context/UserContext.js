@@ -2,7 +2,7 @@ import React ,{ useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 
 const UserContext = React.createContext({
-  user:{},
+  user: { },
   errors: [],
   createNewUser: () => {},
   loginUser: () => {},
@@ -26,6 +26,7 @@ function UserProvider({children}){
       }
     })
   }, [])
+
 
   function createNewUser (newUser){
     fetch('/users', {
@@ -53,12 +54,9 @@ function UserProvider({children}){
     })
     .then(response => {
       if(response.ok) {
-        response.json().then(user => { 
-          setUser(user)
-          navigate('/home')
-        })
+        response.json().then(userLogging => setUser(userLogging));  
       } else {
-        response.json().then(data => setErrors(data.errors))
+        response.json().then(data => setErrors(data.errors));
       }
     })
   }
@@ -106,6 +104,8 @@ function UserProvider({children}){
     updateUser,
     deleteUser
   }
+
+  
 
 
   return(

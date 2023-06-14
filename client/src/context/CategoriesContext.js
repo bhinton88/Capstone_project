@@ -6,8 +6,6 @@ function CategoryProvider ({children}) {
 
   const [ categories, setCategories ] = useState([])
 
-  console.log(categories)
-
   useEffect(() => {
     fetch('/categories')
     .then(response => response.json())
