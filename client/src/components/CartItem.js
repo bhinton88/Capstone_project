@@ -6,7 +6,7 @@ import { Button, Stack } from "react-bootstrap"
 
 function CartItem({ item }) {
 
-  const {id, quantity, cost } = item
+  const {id, quantity} = item
   const {removeItemFromCart} = useContext(CartContext)
   const { items } = useContext(ItemContext) // all items from context
 
@@ -23,6 +23,8 @@ function CartItem({ item }) {
     return CURRENCY_FORMATTER.format(number)
   }
 
+  const currentItemCost = quantity*current_item.price
+
   return (
     <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
       <img 
@@ -37,7 +39,7 @@ function CartItem({ item }) {
         <div className="text-muted" style={{fontSize: ".75rem"}}>
           {formatCurrency(current_item.price)} x {quantity}
         </div>
-        <div>{formatCurrency(cost)}</div>
+        <div>{formatCurrency(currentItemCost)}</div>
       </div>
       <Button variant="outline-danger" size="sm" className="justify-content-right" onClick={() => removeItemFromCart(item.id)}>&times;</Button>
     </Stack>  

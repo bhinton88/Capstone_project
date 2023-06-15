@@ -1,10 +1,14 @@
 import { Modal, Form, Col, Row, Button } from "react-bootstrap"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { CategoryContext } from "../context/CategoriesContext"
+import UploadWidget from "./UploadWidget"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from "@fortawesome/free-solid-svg-icons"
 
 function NewItemModal( { show, handleClose }) {
 
   const {categories} = useContext(CategoryContext)
+  const [cloudinaryData, setCloudinaryData] = useState({})
 
   const category_names = categories.map(value => {
       return (
@@ -15,7 +19,13 @@ function NewItemModal( { show, handleClose }) {
       )
   })
 
-  console.log(category_names)
+  // stored the cloudinary data on the backend for more security and then made a call from the front end
+  useEffect(() => {
+    fetch("/data")
+    .then(response => response.json())
+    .then(data => setCloudinaryData(data))
+  }, [])
+
 
   const [formData, setFormData] = useState({
     item_name: "",
@@ -26,8 +36,6 @@ function NewItemModal( { show, handleClose }) {
     category_id: 1
   })
 
-  console.log(formData)
-
   function onChange (event) {
     setFormData({
       ...formData,
@@ -35,10 +43,19 @@ function NewItemModal( { show, handleClose }) {
     })
   }
 
+  function addPhotoUrl (url){
+    setFormData({
+      ...formData,
+      photo_url: url
+    })
+  }
+
   function onSubmit(event){
     event.preventDefault()
 
   }
+
+  
 
   return (
       <Modal show={show} onHide={handleClose} size="lg">
@@ -108,12 +125,19 @@ function NewItemModal( { show, handleClose }) {
             <Form.Text className="me-3">
               Upload a photo:
             </Form.Text>
-              <Button>
-                Upload
-              </Button>
+            {formData.photo_url ?
+             <FontAwesomeIcon icon={faCheck} beatFade size="sm" />
+             :
+             <UploadWidget 
+              cloudinaryData={cloudinaryData}
+              addPhotoUrl={addPhotoUrl}
+            />
+            }
             </Form.Group>
             <div className="d-flex mt-3 justify-content-center">
-              <Button>Submit new item</Button>
+              <Button>
+                Add new item
+              </Button>
             </div>
         </Form>
       </Modal>

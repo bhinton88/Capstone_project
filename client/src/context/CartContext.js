@@ -1,5 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import ShoppingCart from "../components/ShoppingCart";
+import { ItemContext } from "./ItemContext";
 
 const CartContext = createContext({
   cartItems: [],
@@ -7,7 +8,6 @@ const CartContext = createContext({
   addItemToCart: () => {},
   removeItemFromCart: () => {},
   deleteAllOfAnItemFromCart: () => {},
-  getTotalCost: () => {},
   openCart: () => {},
   closeCart: () => {},
   cartQuantity: Number,
@@ -20,6 +20,8 @@ const cartFromLocalStorage = JSON.parse(localStorage.getItem('cartItems') || '[]
 
 function CartProvider ({children}) {
 
+  const {items} = useContext(ItemContext)
+
   const [cartItems, setCartItems] = useState(cartFromLocalStorage)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -30,8 +32,9 @@ function CartProvider ({children}) {
   },[cartItems])
 
   const openCart = () => setIsOpen(true)
-
   const closeCart = () => setIsOpen(false) 
+
+
   
   function getItemQuantityInCart(id) {
     const quantityOfAnItem = cartItems.find(item => item.id === id)?.quantity
@@ -43,7 +46,7 @@ function CartProvider ({children}) {
     return quantityOfAnItem
   }
 
-  function addItemToCart (id, price) {
+  function addItemToCart (id) {
     const quantity = getItemQuantityInCart(id)
 
     if(quantity === 0){
@@ -51,13 +54,12 @@ function CartProvider ({children}) {
         ...cartItems, {
         id: id,
         quantity: 1,
-        cost: price
         }
       ])
 
     } else { // if we are adding to items already in our cart, we need to update the quanity and the total cost 
       const updatedCart = cartItems.map(item =>  item.id === id ?
-        {...item, quantity: item.quantity + 1, cost: item.cost + price}
+        {...item, quantity: item.quantity + 1}
         :
         item
       )
@@ -75,7 +77,7 @@ function CartProvider ({children}) {
 
   }
 
-  function removeItemFromCart(id, price) {
+  function removeItemFromCart(id) {
     const quantity = getItemQuantityInCart(id)
 
     if(quantity === 1){
@@ -83,7 +85,7 @@ function CartProvider ({children}) {
 
     } else { // if we are pulling out items already in our cart, we need to update the quanity and the total cost 
       const updatedCart = cartItems.map(item =>  item.id === id ?
-        {...item, quantity: item.quantity - 1, cost: item.cost - price}
+        {...item, quantity: item.quantity - 1}
         :
         item
       )
@@ -94,17 +96,7 @@ function CartProvider ({children}) {
     }
   }
 
-  function getTotalCost () {
-    let totalCost = 0;
 
-    cartItems.map(item => {
-      totalCost = item.cost + totalCost
-      return totalCost
-    })
-
-    return totalCost
-
-  }
 
   const cartQuantity = cartItems.reduce((quantity, item) => item.quantity + quantity, 0) 
 
@@ -114,7 +106,6 @@ function CartProvider ({children}) {
     addItemToCart,
     removeItemFromCart,
     deleteAllOfAnItemFromCart,
-    getTotalCost,
     cartQuantity,
     openCart,
     closeCart

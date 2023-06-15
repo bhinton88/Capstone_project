@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
+  get "/data", to: "users#cloud_name_and_upload_present"
+
 
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

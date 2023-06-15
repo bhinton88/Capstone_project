@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
+  rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_data
 
-  before_action :authorize
+  before_action :authorize, :has_admin_rights
 
   def index
     items = Item.all
@@ -8,6 +9,8 @@ class ItemsController < ApplicationController
   end
 
   def create
+    item = Item.create!(item_params)
+    render json: item, status: :created
   end
 
   def update
@@ -16,6 +19,10 @@ class ItemsController < ApplicationController
 
 
   private
+
+  def handle_invalid_data(invalid)
+    render json: {errors: invalid.record.errors.full_messages}, status: :unprocessable_entity
+  end
 
   def item_params
     params.permit(:item_name, :price, :description, :quantity_available, :category_id, :photo_url )

@@ -2,13 +2,18 @@ import { useContext } from "react"
 import { Offcanvas, Stack, Button } from "react-bootstrap"
 import { CartContext } from "../context/CartContext"
 import CartItem from "./CartItem"
+import { ItemContext } from "../context/ItemContext"
 
 
 function ShoppingCart ({isOpen}) {
 
   const { closeCart, cartItems } = useContext(CartContext)
+  const {items} = useContext(ItemContext)
 
-  const totalCartCost = cartItems.reduce((total, item) => total + (item?.cost || 0), 0)
+  const totalCartCost = cartItems.reduce((total, cartItem) => {
+    const item = items.find(item => item.id === cartItem.id)
+    return total + cartItem.quantity*(item?.price || 0)
+  }, 0)
 
   const CURRENCY_FORMATTER = new Intl.NumberFormat(undefined, {
     currency: "USD", 

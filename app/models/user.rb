@@ -24,4 +24,5 @@ class User < ApplicationRecord
     response = Stripe::Customer.create(params)
     self.stripe_id = response.id
   end
+
 end

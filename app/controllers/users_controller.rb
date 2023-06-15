@@ -33,6 +33,11 @@ class UsersController < ApplicationController
     head :no_content
   end
 
+  def cloud_name_and_upload_present
+    cloudinary_info = {cloud_name: Rails.application.credentials.cloudinary_cloud_name, upload_preset: Rails.application.credentials.cloudinary_upload_preset}
+    render json: cloudinary_info
+  end
+
 
   private
   

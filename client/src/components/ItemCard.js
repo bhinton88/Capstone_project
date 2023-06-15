@@ -46,7 +46,7 @@ function ItemCard({item}) {
         </Card.Text>
         { quantityInCart === 0 ?
           (<Button 
-              onClick={() => addItemToCart(item.id, item.price)}
+              onClick={() => addItemToCart(item.id)}
               disabled={soldOutItem ? true : false}
             >
               {soldOutItem ? "Sold out" : "Add to Cart"}
@@ -72,12 +72,12 @@ function ItemCard({item}) {
               :
             (<div className="d-flex align-items-center justify-content-center" style={{gap: ".5rem"}}>
               <div className="d-flex align-items-center justify-content-center" style={{gap: ".5rem"}}>
-                <Button onClick={() => removeItemFromCart(item.id, item.price)}>-</Button>
+                <Button onClick={() => removeItemFromCart(item.id)}>-</Button>
                 <div>
                   <span className="fs-3">{quantityInCart}</span>
                   in cart
                 </div>
-                <Button onClick={() => addItemToCart(item.id, item.price)}>+</Button>
+                <Button onClick={() => addItemToCart(item.id)}>+</Button>
               </div>
               <Button 
                 variant="danger" 
