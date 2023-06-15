@@ -1,10 +1,12 @@
-import React ,{ useEffect, useState } from "react";
+import React ,{ useContext, useEffect, useState } from "react";
+import { ItemContext } from "./ItemContext";
 
 const CategoryContext = React.createContext();
 
 function CategoryProvider ({children}) {
 
   const [ categories, setCategories ] = useState([])
+  const {items} = useContext(ItemContext)
 
   useEffect(() => {
     fetch('/categories')

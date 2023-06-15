@@ -4,10 +4,15 @@ import { CategoryContext } from "../context/CategoriesContext"
 import UploadWidget from "./UploadWidget"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from "@fortawesome/free-solid-svg-icons"
+import { ItemContext } from "../context/ItemContext"
+import { useNavigate } from "react-router-dom"
 
 function NewItemModal( { show, handleClose }) {
 
+  const navigate = useNavigate();
+
   const {categories} = useContext(CategoryContext)
+  const { addNewItem } = useContext(ItemContext)
   const [cloudinaryData, setCloudinaryData] = useState({})
 
   const category_names = categories.map(value => {
@@ -36,10 +41,28 @@ function NewItemModal( { show, handleClose }) {
     category_id: 1
   })
 
+  const newItemCategory = categories.find(category => (category.id === formData.category_id) || null)
+
   function onChange (event) {
     setFormData({
       ...formData,
       [event.target.name]:event.target.value
+    })
+  }
+
+  // had to create a seconday event change function in order to make sure that the category ID was getting parsed 
+  // as an int and not a string 
+  function handleCategoryChange (event){
+    setFormData({
+      ...formData,
+      [event.target.name]: parseInt(event.target.value)
+    })
+  }
+
+  function handlePriceChange (event) {
+    setFormData({
+      ...formData,
+      [event.target.name]: parseFloat(event.target.value)
     })
   }
 
@@ -52,17 +75,18 @@ function NewItemModal( { show, handleClose }) {
 
   function onSubmit(event){
     event.preventDefault()
-
+    addNewItem(formData)
+    handleClose()
+    navigate(`/shop/${newItemCategory.category_name}`)
   }
 
-  
 
   return (
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Create a new item</Modal.Title>
         </Modal.Header>
-        <Form className='d-flex flex-column m-3'> 
+        <Form className='d-flex flex-column m-3' onSubmit={onSubmit}> 
           <Row className='mb-3'>
             <Form.Group as={Col}>
               <Form.Label>Item Name:</Form.Label>
@@ -81,7 +105,7 @@ function NewItemModal( { show, handleClose }) {
                 min="0"
                 step="0.01"
                 value={formData.price}
-                onChange={onChange}
+                onChange={handlePriceChange}
               />
             </Form.Group> 
             <Form.Group as={Col}>
@@ -92,7 +116,7 @@ function NewItemModal( { show, handleClose }) {
                 min="0"
                 step="1"
                 value={formData.quantity_available}
-                onChange={onChange}
+                onChange={handleCategoryChange}
               />
             </Form.Group>     
           </Row>
@@ -100,7 +124,7 @@ function NewItemModal( { show, handleClose }) {
             <Form.Group as={Col}>
               <Form.Label>Item Description</Form.Label>
               <Form.Control 
-                name="desciption"
+                name="description"
                 as="textarea"
                 rows={4} 
                 placeholder="Enter a brief description about the item" 
@@ -115,7 +139,7 @@ function NewItemModal( { show, handleClose }) {
               <Form.Select
                 name="category_id"
                 value={formData.category_id}
-                onChange={onChange}
+                onChange={handleCategoryChange}
               >
               {category_names.map(value => <option key={value.id} value={value.id}>{value.category_name}</option>)}
               </Form.Select>
@@ -135,7 +159,7 @@ function NewItemModal( { show, handleClose }) {
             }
             </Form.Group>
             <div className="d-flex mt-3 justify-content-center">
-              <Button>
+              <Button type="submit">
                 Add new item
               </Button>
             </div>

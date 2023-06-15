@@ -5,18 +5,19 @@ const UploadWidget = ({cloudinaryData, addPhotoUrl}) => {
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
 
+  const {cloud_name, upload_preset} = cloudinaryData
+
   useEffect(() => {
-    cloudinaryRef.current = window.cloudinary
+    cloudinaryRef.current = window.cloudinary;
     widgetRef.current = cloudinaryRef.current.createUploadWidget({
-      cloudName: cloudinaryData.cloudName,
-      uploadPreset: cloudinaryData.uploadPreset,
-      cropping:true
+      cloudName: `${cloud_name}`,
+      uploadPreset: `${upload_preset}`
     }, function(error, result){
       if(!error && result && result.event === "success"){
         addPhotoUrl(result.info.secure_url)
       } 
     })
-  }, [cloudinaryData])
+  }, [cloud_name, upload_preset,addPhotoUrl])
 
 
   return (

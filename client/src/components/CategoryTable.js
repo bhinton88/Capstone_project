@@ -1,9 +1,15 @@
 import { Table, Stack } from "react-bootstrap"
 import ItemActions from "./ItemActions"
+import { useContext } from "react"
+import { ItemContext } from "../context/ItemContext"
 
 function CategoryTable({category}) {
 
-  const {category_name, items} = category
+  const {category_name } = category
+
+  const { items } = useContext(ItemContext)
+
+  const filteredItems = items.filter(item => item.category_name === category_name)
 
   const CURRENCY_FORMATTER = new Intl.NumberFormat(undefined, {
     currency: "USD", 
@@ -35,7 +41,7 @@ function CategoryTable({category}) {
         </thead>
         <tbody>
           {
-            items.map(item => {
+            filteredItems.map(item => {
               return(
               <tr key={item.id}>
                 <td>{item.item_name}</td>

@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import ShoppingCart from "../components/ShoppingCart";
-import { ItemContext } from "./ItemContext";
 
 const CartContext = createContext({
   cartItems: [],
@@ -20,8 +19,6 @@ const cartFromLocalStorage = JSON.parse(localStorage.getItem('cartItems') || '[]
 
 function CartProvider ({children}) {
 
-  const {items} = useContext(ItemContext)
-
   const [cartItems, setCartItems] = useState(cartFromLocalStorage)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -33,8 +30,6 @@ function CartProvider ({children}) {
 
   const openCart = () => setIsOpen(true)
   const closeCart = () => setIsOpen(false) 
-
-
   
   function getItemQuantityInCart(id) {
     const quantityOfAnItem = cartItems.find(item => item.id === id)?.quantity
@@ -95,8 +90,6 @@ function CartProvider ({children}) {
       ])
     }
   }
-
-
 
   const cartQuantity = cartItems.reduce((quantity, item) => item.quantity + quantity, 0) 
 
