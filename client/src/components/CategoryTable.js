@@ -48,7 +48,7 @@ function CategoryTable({category}) {
                 <td>{item.description}</td>
                 <td>{formatCurrency(item.price)}</td>
                 <td>{item.quantity_available}</td>
-                <td><ItemActions id={item.id} /></td>
+                <td><ItemActions item={item}/></td>
               </tr>
               )
             })

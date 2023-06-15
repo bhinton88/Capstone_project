@@ -30,4 +30,13 @@ class Item < ApplicationRecord
     stripe_price = (self.price * 100).to_i
   end
 
+  def create_new_price_id
+    price = Stripe::Price.create({
+      unit_amount: self.convert_currency,
+      currency: 'usd',
+      recurring: nil,
+      product: product.id
+    })
+  end
+
 end

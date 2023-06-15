@@ -15,6 +15,14 @@ class ItemsController < ApplicationController
 
   def update
   #  if we want to update the price of an item, we must create a new price_ID and associate it with the product
+    item = Item.find_by(id: params[:id])
+
+    if  params[:price] != item.price
+      item.
+
+  end
+
+  def destroy
   end
 
 

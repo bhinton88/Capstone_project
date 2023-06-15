@@ -16,7 +16,7 @@ function Shop () {
   return (
     <>
     <h1 align="center" className="p-3">Categories:</h1>
-      <Row xs={1} md={3} className="g-4">
+      <Row xs={1} md={3} className="g-4 d-flex justify-content-center">
         {
           categories.map(category =>{
             return(
