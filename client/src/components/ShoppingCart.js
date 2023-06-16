@@ -45,6 +45,8 @@ function ShoppingCart ({isOpen}) {
         </Stack>
       </Offcanvas.Body>
     </Offcanvas>
+    // need to create some logic that when our checkout button is pressed, it first checks to see if they are a user, if not
+    // a modal will pop up asking them to create a user account first 
   )
   
 }

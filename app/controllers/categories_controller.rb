@@ -3,6 +3,8 @@ class CategoriesController < ApplicationController
 
   before_action :authorize
 
+  skip_before_action :authorize, only: :index
+
   # create logic that will take in a category name and return the items from that category,will happen on click of a box with respective category name in it 
 
   #  remember that index is for ALL items.. and show is for a singular item 

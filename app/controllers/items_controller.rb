@@ -5,6 +5,8 @@ class ItemsController < ApplicationController
   before_action :authorize, :has_admin_rights, :find_item
   skip_before_action :find_item, only: :create
 
+  skip_before_action :authorize, :has_admin_rights, only: :index
+
   def index
     items = Item.all
     render json: items

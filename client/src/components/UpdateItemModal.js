@@ -7,7 +7,7 @@ function UpdateItemModal({ item, show, handleClose }) {
 
   const { id, item_name, price, description, quantity_available } = item
 
-  const {updateItem } = useContext(ItemContext)
+  const {updateItem, errors } = useContext(ItemContext)
 
   const [formData, setFormData] = useState({
     item_name: item_name,
@@ -95,6 +95,13 @@ function UpdateItemModal({ item, show, handleClose }) {
               />
             </Form.Group>
           </Row>
+          <Form.Text>
+            <ul>
+            {
+              errors.map(value => <li style={{color: "red" }}><strong>{value}</strong></li>)
+            }
+            </ul>
+          </Form.Text>
           <div className="d-flex mt-3 justify-content-center">
               <Button type="submit">
                 Update Item

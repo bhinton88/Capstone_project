@@ -12,7 +12,7 @@ function NewItemModal( { show, handleClose }) {
   const navigate = useNavigate();
 
   const {categories} = useContext(CategoryContext)
-  const { addNewItem } = useContext(ItemContext)
+  const { addNewItem, errors } = useContext(ItemContext)
   const [cloudinaryData, setCloudinaryData] = useState({})
 
   const category_names = categories.map(value => {
@@ -158,6 +158,13 @@ function NewItemModal( { show, handleClose }) {
             />
             }
             </Form.Group>
+            <Form.Text>
+              <ul>
+              {
+                errors.map(value => <li style={{color: "red" }}><strong>{value}</strong></li>)
+              }
+              </ul>
+          </Form.Text>
             <div className="d-flex mt-3 justify-content-center">
               <Button type="submit">
                 Add new item

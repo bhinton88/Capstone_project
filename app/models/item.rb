@@ -7,6 +7,7 @@ class Item < ApplicationRecord
 
 
   after_save :assign_price_id
+  
   def assign_price_id 
     if self.price_id.blank? and self.product_id.blank? 
       product = Stripe::Product.create({ 

@@ -79,7 +79,7 @@ export default function NavBarS() {
           <Modal.Title>Sign in to your account:</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <LoginUser />
+          <LoginUser closeModal={closeModal}/>
         </Modal.Body>
         <Modal.Footer>
           <p>Dont have an account?</p><NavLink to='/new_user' onClick={closeModal}>Click here to create an account!</NavLink>

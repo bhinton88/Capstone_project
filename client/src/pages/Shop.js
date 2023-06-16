@@ -11,8 +11,6 @@ function Shop () {
 
   const { categories } = useContext(CategoryContext)
 
-  console.log(categories)
-
   return (
     <>
     <h1 align="center" className="p-3">Categories:</h1>

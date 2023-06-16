@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap'
 import { UserContext } from '../context/UserContext'
 
 
-function LoginUser () {
+function LoginUser ({ closeModal }) {
 
   const { loginUser, errors } = useContext(UserContext)
 
@@ -23,6 +23,7 @@ function LoginUser () {
   function onSubmit(event){
     event.preventDefault()
     loginUser(formData)
+    closeModal()
   }
 
   return(
