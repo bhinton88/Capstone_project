@@ -24,6 +24,18 @@ function ShoppingCart ({isOpen}) {
     return CURRENCY_FORMATTER.format(number)
   }
 
+  const lineItems = cartItems.map(cartItem => {
+    const item = items.find(item => item.id === cartItem.id)
+    return (
+      {
+        price: item.price_id,
+        quantity: cartItem.quantity
+      }
+    )
+  })
+
+  console.log(lineItems)
+
   return (
     <Offcanvas className="w-40" show={isOpen} onHide={closeCart}  placement="end">
       <Offcanvas.Header closeButton>

@@ -93,6 +93,7 @@ function CartProvider ({children}) {
 
   const cartQuantity = cartItems.reduce((quantity, item) => item.quantity + quantity, 0) 
 
+
   const contextValue = {
     cartItems: cartItems,
     getItemQuantityInCart,
