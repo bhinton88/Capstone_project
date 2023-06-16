@@ -1,7 +1,9 @@
 class ItemsController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_data
+  rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
 
-  before_action :authorize, :has_admin_rights
+  before_action :authorize, :has_admin_rights, :find_item
+  skip_before_action :find_item, only: :create
 
   def index
     items = Item.all
@@ -15,21 +17,37 @@ class ItemsController < ApplicationController
 
   def update
   #  if we want to update the price of an item, we must create a new price_ID and associate it with the product
-    item = Item.find_by(id: params[:id])
-
-    if  params[:price] != item.price
-      item.
-
+    if ((params[:price] != @item.price) && params[:description])
+      updated_price = convert_currency(params[:price])
+      @item.create_new_price_id_update_description(updated_price, params[:description])
+      @item.update!(item_params)
+      render json: @item, status: :ok
+    else
+      @item.update_stripe_item(params[:description])
+      @item.update!(item_params)
+      render json: @item, status: :ok
+    end
   end
 
   def destroy
+    @item.remove_stripe_item
+    @item.destroy
+    head :no_content
   end
 
 
   private
 
+  def convert_currency(price)
+    stripe_price = (price * 100).to_i
+  end
+
   def handle_invalid_data(invalid)
     render json: {errors: invalid.record.errors.full_messages}, status: :unprocessable_entity
+  end
+  
+  def handle_record_not_found
+    render json: {errors: ["User not found"]}, status: :not_found
   end
 
   def item_params
@@ -47,5 +65,9 @@ class ItemsController < ApplicationController
     if !user.admin_rights
       render json: {errors: ["Not authorized"]}, status: :unauthorized 
     end
+  end
+
+  def find_item
+    @item = Item.find_by(id: params[:id])
   end
 end
