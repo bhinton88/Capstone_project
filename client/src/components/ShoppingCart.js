@@ -1,8 +1,8 @@
 import { useContext } from "react"
 import { Offcanvas, Stack, Button } from "react-bootstrap"
 import { CartContext } from "../context/CartContext"
-import CartItem from "./CartItem"
 import { ItemContext } from "../context/ItemContext"
+import CartItem from "./CartItem"
 
 
 function ShoppingCart ({isOpen}) {
@@ -26,7 +26,10 @@ function ShoppingCart ({isOpen}) {
 
   const lineItems = cartItems.map(cartItem => {
     const item = items.find(item => item.id === cartItem.id)
-    return (
+    if(item === undefined){
+      return null
+    }
+    return(
       {
         price: item.price_id,
         quantity: cartItem.quantity

@@ -3,7 +3,8 @@ class ItemsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
 
   before_action :authorize, :has_admin_rights, :find_item
-  skip_before_action :find_item, only: :create
+  
+  skip_before_action :find_item, only: [:create, :index]
 
   skip_before_action :authorize, :has_admin_rights, only: :index
 

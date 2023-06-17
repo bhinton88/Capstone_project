@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
   
-  resources :payments
+  resources :payments, only: []
   resources :order_items, only: [:create]
   resources :users
   resources :categories, only: [:index]
-  resources :orders
+  resources :orders, only: [:index]
   resources :items
 
   get "/me", to: "users#show"
+
+  post "/checkout", to: "checkout#create"
 
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"

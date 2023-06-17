@@ -11,14 +11,15 @@ import { ItemProvider } from './context/ItemContext';
 import { CartProvider } from './context/CartContext';
 
 
+
 function App() {
 
   return(
     <>
-      <UserProvider>
-        <CategoryProvider>
-          <ItemProvider>
-            <CartProvider>
+      <ItemProvider>
+        <UserProvider>
+          <CartProvider>
+            <CategoryProvider>
               <NavBarS />
               <Routes>
                 <Route path='/new_user' element={<CreateUserForm />}/>
@@ -26,10 +27,10 @@ function App() {
                 <Route path='/shop' element={<Shop />} />
                 <Route path='/shop/:category_name' element={<ItemList />} />
               </Routes>
-            </CartProvider>
-          </ItemProvider>
-        </CategoryProvider>
-      </UserProvider>
+            </CategoryProvider>
+          </CartProvider>
+        </UserProvider>
+      </ItemProvider>
     </>
   )
 

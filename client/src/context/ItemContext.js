@@ -19,6 +19,8 @@ function ItemProvider ({children}) {
     .then(data => setItems(data))
   }, [])
 
+  
+
   function addNewItem (newItem) {
     fetch('/items', {
       method: "POST",
